@@ -21,13 +21,12 @@ DIAL_TIMEOUT=${DIAL_TIMEOUT:-}
 READ_TIMEOUT=${READ_TIMEOUT:-}
 DETECT_SSL_ERROR=${DETECT_SSL_ERROR:-false}
 
-CONFIG_FILE="/config.rc"
+CONFIG_FILE="/data/config.rc"
 
 if [ "$1" == "cow" ]
 then
    cat > $CONFIG_FILE  <<EOF
-listen = 0.0.0.0:7777
-logFile =/data/log
+listen = http://0.0.0.0:7777
 alwaysProxy = ${ALWAYS_PROXY}
 loadBalance = ${LOAD_BALANCE}
 detectSSLErr = ${DETECT_SSL_ERROR}
@@ -80,9 +79,6 @@ EOF
    [ -f /data/stat ] || touch /data/stat
 
    cat >> $CONFIG_FILE  <<EOF
-statFile = /data/stat
-blockedFile = /data/blocked
-directFile = /data/direct
 EOF
 
    /cow -rc=$CONFIG_FILE ${DEBUG_FLAG}
